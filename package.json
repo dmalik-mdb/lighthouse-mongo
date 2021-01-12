@@ -1,0 +1,26 @@
+{
+  "name": "tapestry-lighthouse-mongo",
+  "version": "1.0.0",
+  "description": "Run lighthouse reports on a schedule and insert them into MongoDB",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmalik-mdb/tapestry-lighthouse-mongo.git"
+  },
+  "author": "Danish Malik",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dmalik-mdb/tapestry-lighthouse-mongo/issues"
+  },
+  "homepage": "https://github.com/dmalik-mdb/tapestry-lighthouse-mongo#readme",
+  "dependencies": {
+    "chrome-launcher": "^0.13.4",
+    "express": "^4.17.1",
+    "lighthouse": "^7.0.0",
+    "mongodb": "^3.6.3",
+    "node-cron": "^2.0.3"
+  }
+}

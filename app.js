@@ -13,11 +13,9 @@ const urls = [
 ];
 
 async function runReport(url) {
-    const chrome = await chromeLauncher.launch({ chromeFlags: ['--headless'] });
+    const chrome = await chromeLauncher.launch({ chromeFlags: ['--headless', '--no-sandbox'] });
     const runnerResults = await lighthouse(url, { port: chrome.port }, config);
     setTimeout(() => {chrome.kill().catch(e => console.error(e));}, 500);
-    // await wait(500);
-    // chrome.kill();
     console.log("Ran report for:", url)
     return runnerResults;
 }
