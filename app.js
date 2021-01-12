@@ -28,7 +28,8 @@ async function saveReports(urls) {
 
         // Insert document into MongoDB
         const MongoClient = mongodb.MongoClient;
-        const uri = "mongodb+srv://main_user:Passw0rd@dmalikm10.us76j.mongodb.net/<dbname>?retryWrites=true&w=majority";
+        // Add credentials and cluster name to connection string
+        const uri = "mongodb+srv://<username>:<password>@<cluster>/<dbname>?retryWrites=true&w=majority";
         const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
         client.connect(function (err, db) {
             if (err) throw err;
