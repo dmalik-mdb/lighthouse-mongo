@@ -13,9 +13,9 @@ const urls = [
 ];
 
 async function runReport(url) {
-    const chrome = await chromeLauncher.launch({ chromeFlags: ['--headless', '--no-sandbox'] });
+    const chrome = await chromeLauncher.launch({ chromeFlags: ['--headless', '--no-sandbox', '--disable-gpu', '--enable-logging'] });
     const runnerResults = await lighthouse(url, { port: chrome.port }, config);
-    setTimeout(() => {chrome.kill().catch(e => console.error(e));}, 500);
+    setTimeout(() => {chrome.kill().catch(e => console.error(e));}, 2000);
     console.log("Ran report for:", url)
     return runnerResults;
 }
@@ -36,7 +36,7 @@ async function saveReports(urls) {
         // Insert document into MongoDB
         const MongoClient = mongodb.MongoClient;
         const uri = "mongodb+srv://main_user:Passw0rd@dmalikm10.us76j.mongodb.net/<dbname>?retryWrites=true&w=majority";
-        const client = new MongoClient(uri, { useNewUrlParser: true });
+        const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
         client.connect(function (err, db) {
             if (err) throw err;
             var dbo = db.db("lighthouse");
@@ -52,10 +52,18 @@ async function saveReports(urls) {
 const app = express();
 const port = 5000;
 
-cron.schedule("*/1 * * * *", function () {
-    saveReports(urls);
+cron.schedule("*/30 * * * *", function () {
+    console.log('---------------------');
+    console.log('Running cron job');
+    saveReports(urls, err => {
+        if (err) {
+            console.log("Failed run due to", err.message);
+        } else {
+            console.log("Cron run successful");
+        }
+    });
 });
 
 app.listen(port, () =>
-    console.log(`Lighthouse service is listening on ${port}!`)
+    console.log("Lighthouse service is listening on", port)
 );
